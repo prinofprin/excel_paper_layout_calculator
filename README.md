@@ -5,7 +5,7 @@ My Goal: Create a calculator to find the most efficient layout for cutting paper
 
 ## Download
 1. Download paper_cutting_layout_calculator.xlsm from the repository above.
-2. Click enable micro.
+2. Click enable macro button.
 3. Click go to the calculator headline or scroll down to row 41 to go to the calculator location.
 
 ## Usage
