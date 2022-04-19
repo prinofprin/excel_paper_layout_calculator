@@ -17,5 +17,5 @@ My Goal: Create a calculator to find the most efficient layout for cutting paper
 <a href="https://ibb.co/4WkTsgF"><img src="https://i.ibb.co/nrpc38w/layout-calculator-details.png" alt="layout-calculator-details" border="0"></a>
 
 ## Example
-Assuming that you have an 24x35 Inch paper you need to cut it in to A4 size paper(8.25x11.75). You want to know how many A4 paper you will get and the layout for cutting, so you can cut it accurractly. Let's use my layout calculator to find out like an example image below.
+Assuming that you have a 24x35 Inches paper you need to cut it into A4 size paper(8.25"x11.75"). You want to know how many A4 papers you will get and the layout for cutting, so you can cut it accurately. Let's use my layout calculator to find out like an example image below.
 <a href="https://ibb.co/pvXk3Cw"><img src="https://i.ibb.co/d0KHQnM/layout-calculator-example2.png" alt="layout-calculator-example2" border="0"></a>
