@@ -1,1 +1,471 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+'MsgBox Target.Address
+If Not Application.Intersect(Range("F999"), Range(Target.Address)) Is Nothing Then
+Call Cal
+End If
+End Sub
+
+Sub Cal()
+'Deleted the result before
+Range("F54").Value = ""
+Range("D57") = ""
+Range("B60") = ""
+Range("G60") = ""
+Range("D63") = ""
+Range("L63") = ""
+
+' start calculating
+x = Int(Range("F48").Value / Range("F51").Value)
+y = Int(Range("H48").Value / Range("H51").Value)
+R1 = x * y
+xx = Int(Range("F48").Value / Range("H51").Value)
+yy = Int(Range("H48").Value / Range("F51").Value)
+R2 = xx * yy
+
+Call SpecialCal
+
+If R1 > R2 Then
+    Range("F54").Value = R1
+    Call F1
+End If
+
+If R2 > R1 Then
+    Range("F54").Value = R2
+    Call F2
+End If
+
+If R2 = R1 Then
+    Range("F54").Value = R1
+    Call F1
+End If
+
+If Range("F54").Value < Range("z50").Value Then
+    Range("F54").Value = Range("z50").Value
+    Range("o54") = "Special"
+End If
+Range("z50") = 0
+
+A1 = Range("F51").Value * Range("H51").Value
+A2 = Range("F48").Value * Range("H48").Value
+A3 = A2 - A1 * Range("F54").Value
+Range("o57") = A3 / A2 * 100 & " % "
+
+Range("o60") = Range("F54").Value & " / " & Int(A2 / A1)
+If Range("F54").Value / Int(A2 / A1) = 1 Then
+Range("o60") = " Full "
+End If
+
+If Range("F51").Value = Range("FH51").Value Then
+Range("o60") = " Full "
+End If
+
+If Range("F48").Value = 31 And Range("H48").Value = 43 And Range("F51").Value = 8.25 And Range("H51").Value = 11.75 Then
+Range("F54").Value = 11
+Range("o54") = 8.6 & " x 12"
+Range("o57") = " Standard "
+Range("o60") = " 11/13 "
+End If
+
+' place paper determinat L and W add in 23/12/19
+If Range("F48").Value >= Range("H48").Value Then
+LB = Range("F48").Value
+WB = Range("H48").Value
+End If
+
+If Range("F48").Value < Range("H48").Value Then
+LB = Range("H48").Value
+WB = Range("F48").Value
+End If
+
+If Range("F51").Value >= Range("H51").Value Then
+l = Range("F51").Value
+w = Range("H51").Value
+End If
+
+If Range("F51").Value < Range("H51").Value Then
+l = Range("H51").Value
+w = Range("F51").Value
+End If
+
+' place paper calculating add in 23/12/19
+If Range("F48").Value >= Range("H48").Value Then
+LB = Range("F48").Value
+WB = Range("H48").Value
+End If
+
+If Range("F48").Value < Range("H48").Value Then
+LB = Range("H48").Value
+WB = Range("F48").Value
+End If
+
+If Range("F51").Value >= Range("H51").Value Then
+l = Range("F51").Value
+w = Range("H51").Value
+End If
+
+If Range("F51").Value < Range("H51").Value Then
+l = Range("H51").Value
+w = Range("F51").Value
+End If
+
+'Calculate again the result use for placepaper only
+x = Int(WB / w)
+y = Int(LB / l)
+RR1 = x * y
+xx = Int(WB / l)
+yy = Int(LB / w)
+RR2 = xx * yy
+
+
+'Simple Left over calculation
+'RR1
+RR1SWBW = Format(WB - (x * w), "Standard")
+RR1SWBL = Format(LB, "Standard")
+
+RR1SLBW = Format(LB - (y * l), "Standard")
+RR1SLBL = Format(WB - RR1SWBW, "Standard")
+'RR2
+RR2SWBW = Format(WB - (xx * l), "Standard")
+RR2SWBL = Format(LB, "Standard")
+
+RR2SLBW = Format(LB - (yy * w), "Standard")
+RR2SLBL = Format(WB - RR2SWBW, "Standard")
+
+
+
+'Start calculate placeing and left over
+If Range("o54") <> "Special" And RR1 >= RR2 Then
+Range("D57") = l & " x " & y
+Range("B60") = w & " x " & x
+Range("G60") = "-"
+Range("D63") = "-"
+Range("L63") = RR1SWBW & " x " & RR1SWBL & " , " & RR1SLBW & " x " & RR1SLBL
+Range("L63").Font.Size = 18
+End If
+
+If Range("o54") <> "Special" And RR2 > RR1 Then
+Range("D57") = w & " x " & yy
+Range("B60") = l & " x " & xx
+Range("G60") = "-"
+Range("D63") = "-"
+Range("L63") = RR2SWBW & " x " & RR2SWBL & " , " & RR2SLBW & " x " & RR2SLBL
+Range("L63").Font.Size = 18
+End If
+
+
+
+End Sub
+Sub SpecialCal()
+
+If Range("F48").Value >= Range("H48").Value Then
+LB = Range("F48").Value
+WB = Range("H48").Value
+End If
+
+If Range("F48").Value < Range("H48").Value Then
+LB = Range("H48").Value
+WB = Range("F48").Value
+End If
+
+If Range("F51").Value >= Range("H51").Value Then
+l = Range("F51").Value
+w = Range("H51").Value
+End If
+
+If Range("F51").Value < Range("H51").Value Then
+l = Range("H51").Value
+w = Range("F51").Value
+End If
+
+x = Int(WB / w)
+xx = Int(WB / l)
+xxx = Int(LB / w)
+xxxx = Int(LB / l)
+y = Int(LB / l)
+Z = Int(LB / w)
+yy = Int(WB / l)
+zz = Int(WB / w)
+
+If (x - 1) * w + l <= WB Then
+R1 = (Int((x - 1) * y)) + Z * Int((WB - ((x - 1) * w)) / l)
+End If
+
+If (xx - 1) * l + w <= WB Then
+R2 = (Int((xx - 1) * Z)) + y * Int((WB - ((xx - 1) * l)) / w)
+End If
+
+If (xxx - 1) * w + l <= LB Then
+R3 = (Int((xxx - 1) * yy)) + zz * Int((LB - ((xxx - 1) * w)) / l)
+End If
+
+If (xxxx - 1) * l + w <= LB Then
+R4 = (Int((xxxx - 1) * zz)) + yy * Int((LB - ((xxxx - 1) * l)) / w)
+End If
+
+If x * w + l <= WB Then
+R11 = (Int(x * y)) + Z * Int((WB - (x * w)) / l)
+End If
+
+If xx * l + w <= WB Then
+R22 = (Int(xx * Z)) + y * Int((WB - (xx * l)) / w)
+End If
+
+If xxx * w + l <= LB Then
+R33 = (Int(xxx * yy)) + zz * Int((LB - (xxx * w)) / l)
+End If
+
+If xxxx * l + w <= LB Then
+R44 = (Int(xxxx * zz)) + yy * Int((LB - (xxxx * l)) / w)
+End If
+
+Range("D72").Value = R1
+Range("D73").Value = R2
+Range("D74").Value = R3
+Range("D75").Value = R4
+
+Range("E72").Value = R11
+Range("E73").Value = R22
+Range("E74").Value = R33
+Range("E75").Value = R44
+
+SpecialResult = WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44)
+Range("z50") = SpecialResult
+
+'Calculate left over 21/12/19
+'R1 left Over
+
+R1S1 = Format(WB - ((Int(x - 1) * w) + (Int((WB - ((x - 1) * w)) / l) * l)), "standard")
+R1S2 = Format(LB, "standard")
+
+R1S3 = Format(LB - (y * l), "standard")
+R1S4 = Format(Int(x - 1) * w, "standard")
+
+R1S5 = Format(LB - (Z * w), "standard")
+R1S6 = Format(Int((WB - ((x - 1) * w)) / l) * l, "standard")
+
+'R2 Left Over
+R2S1 = Format(WB - ((Int(xx - 1) * l) + (Int((WB - ((xx - 1) * l)) / w) * w)), "standard")
+R2S2 = Format(LB, "standard")
+
+R2S3 = Format(LB - (Z * w), "standard")
+R2S4 = Format(Int(xx - 1) * l, "standard")
+
+R2S5 = Format(LB - (y * l), "standard")
+R2S6 = Format(Int((WB - ((xx - 1) * l)) / w) * w, "standard")
+
+'r3 Left Over
+R3S1 = Format(WB - (yy * l), "standard")
+R3S2 = Format((Int(xxx - 1) * w), "standard")
+
+R3S3 = Format(Int((LB - ((xxx - 1) * w)) / l) * l, "standard")
+R3S4 = Format(WB - (zz * w), "standard")
+
+R3S5 = Format(LB - ((Int(xxx - 1) * w) + (Int((LB - ((xxx - 1) * w)) / l) * l)), "standard")
+R3S6 = Format(WB, "standard")
+
+'R4 Left Over
+R4S1 = Format(WB - (zz * w), "standard")
+R4S2 = Format(Int(xxxx - 1) * l, "standard")
+
+R4S3 = Format(WB - (yy * l), "standard")
+R4S4 = Format(Int((LB - ((xxxx - 1) * l)) / w) * w, "standard")
+
+R4S5 = Format(LB - ((Int(xxxx - 1) * l) + (Int((LB - ((xxxx - 1) * l)) / w) * w)), "standard")
+R4S6 = Format(WB, "standard")
+
+'R22 Left Over
+R22S1 = Format(WB - ((xx * l) + (Int((WB - (xx * l)) / w) * w)), "standard")
+R22S2 = Format(LB, "standard")
+
+R22S3 = Format(LB - (Z * w), "standard")
+R22S4 = Format(xx * l, "standard")
+
+R22S5 = Format(LB - (y * l), "standard")
+R22S6 = Format(Int((WB - (xx * l)) / w) * w, "standard")
+
+'R44 Left Over
+R44S1 = Format(WB - (zz * w), "standard")
+R44S2 = Format(xxxx * l, "standard")
+
+R44S3 = Format(WB - (yy * l), "standard")
+R44S4 = Format(Int((LB - (xxxx * l)) / w) * w, "standard")
+
+R44S5 = Format(LB - ((xxxx * l) + (Int((LB - (xxxx * l)) / w) * w)), "standard")
+R44S6 = Format(WB, "standard")
+
+'Calculate paper add in 18/12/19
+If R1 = WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) Then
+Range("D57") = l & " x " & y
+Range("B60") = w & " x " & Int(x - 1) & " + " & l & " x " & Int((WB - ((x - 1) * w)) / l)
+Range("D63") = w & " x " & Z
+Range("G60") = "-"
+Range("L63") = R1S1 & " x " & R1S2 & ", " & R1S3 & " x " & R1S4 & ", " & R1S5 & " x " & R1S6
+Range("L63").Font.Size = 14
+End If
+
+If R2 = WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) Then
+Range("D57") = w & " x " & Z
+Range("B60") = l & " x " & Int(xx - 1) & " + " & w & " x " & Int((WB - ((xx - 1) * l)) / w)
+Range("D63") = l & " x " & y
+Range("G60") = "-"
+Range("L63") = R2S1 & " x " & R2S2 & ", " & R2S3 & " x " & R2S4 & ", " & R2S5 & " x " & R2S6
+Range("L63").Font.Size = 14
+End If
+
+If R3 = WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) Then
+Range("D57") = w & " x " & Int(xxx - 1) & " + " & l & " x " & Int((LB - ((xxx - 1) * w)) / l)
+Range("B60") = l & " x " & yy
+Range("G60") = w & " x " & zz
+Range("D63") = "-"
+Range("L63") = R3S1 & " x " & R3S2 & ", " & R3S3 & " x " & R3S4 & ", " & R3S5 & " x " & R3S6
+Range("L63").Font.Size = 14
+
+End If
+
+If R4 = WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) Then
+Range("D57") = l & " x " & Int(xxxx - 1) & " + " & w & " x " & Int((LB - ((xxxx - 1) * l)) / w)
+Range("B60") = w & " x " & zz
+Range("G60") = l & " x " & yy
+Range("D63") = "-"
+Range("L63") = R4S1 & " x " & R4S2 & ", " & R4S3 & " x " & R4S4 & ", " & R4S5 & " x " & R4S6
+Range("L63").Font.Size = 14
+End If
+
+If R22 = WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) Then
+Range("D57") = w & " x " & Z
+Range("B60") = l & " x " & xx & " + " & w & " x " & Int((WB - (xx * l)) / w)
+Range("D63") = l & " x " & y
+Range("G60") = "-"
+Range("L63") = R22S1 & " x " & R22S2 & ", " & R22S3 & " x " & R22S4 & ", " & R22S5 & " x " & R22S6
+Range("L63").Font.Size = 14
+
+End If
+
+If R44 = WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) Then
+Range("D57") = l & " x " & xxxx & " + " & w & " x " & Int((LB - (xxxx * l)) / w)
+Range("B60") = w & " x " & zz
+Range("G60") = l & " x " & yy
+Range("D63") = "-"
+Range("L63") = R44S1 & " x " & R44S2 & ", " & R44S3 & " x " & R44S4 & ", " & R44S5 & " x " & R44S6
+Range("L63").Font.Size = 14
+End If
+
+If R1 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) And R2 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) And R3 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) And R4 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) And R11 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) And R22 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) And R33 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) And R44 <> WorksheetFunction.Max(R1, R2, R3, R4, R11, R22, R33, R44) Then
+Range("F57") = " "
+Range("F60") = " "
+Range("F63") = " "
+End If
+
+
+
+
+End Sub
+
+
+Sub F1()
+x = Int(Range("F48").Value / Range("F51").Value)
+y = Int(Range("H48").Value / Range("H51").Value)
+
+    s1 = x * Range("F51").Value - Range("F48").Value
+    s2 = y * Range("H51").Value - Range("H48").Value
+    
+    ss1 = Format(s1 * -1 / x + Range("F51"), "#,##0.00")
+    ss2 = Format(s2 * -1 / y + Range("H51"), "#,##0.00")
+    
+If ss1 <= ss2 Then
+    Range("O54") = ss2 & " x " & ss1
+End If
+
+If ss2 < ss1 Then
+    Range("O54") = ss1 & " x " & ss2
+End If
+
+End Sub
+
+Sub F2()
+
+x = Int(Range("F48").Value / Range("H51").Value)
+y = Int(Range("H48").Value / Range("F51").Value)
+
+    s1 = Format(Range("F48").Value / x, "#,##0.00")
+    s2 = Format(Range("H48").Value / y, "#,##0.00")
+
+If s1 <= s2 Then
+    Range("O54") = s2 & " x " & s1
+End If
+
+If s2 < s1 Then
+    Range("O54") = s1 & " x " & s2
+End If
+
+End Sub
+Sub A()
+Range("F48").Value = 24
+Range("H48").Value = 35
+End Sub
+Sub B()
+Range("F48").Value = 25
+Range("H48").Value = 36
+End Sub
+Sub C()
+Range("F48").Value = 31
+Range("H48").Value = 43
+End Sub
+Sub D()
+Range("F48").Value = 70
+Range("H48").Value = 106
+End Sub
+Sub E()
+Range("F51").Value = 8.25
+Range("H51").Value = 11.75
+End Sub
+Sub F()
+Range("F48").Value = 24
+Range("H48").Value = 36
+End Sub
+Sub Delete1()
+Range("F48").Value = ""
+Range("F51").Value = ""
+Range("F54").Value = ""
+Range("F57").Value = ""
+Range("F60").Value = ""
+Range("F63").Value = ""
+
+Range("H48").Value = ""
+Range("H51").Value = ""
+
+Range("D57") = ""
+Range("B60") = ""
+Range("G60") = ""
+Range("D63") = ""
+Range("L63") = ""
+Range("O46") = ""
+Range("O49") = ""
+Range("O45") = ""
+Range("O54") = ""
+Range("O57") = ""
+Range("O60") = ""
+End Sub
+Sub Find()
+Range("A121").Select
+
+Range("F112").Value = Range("F48").Value
+Range("I112").Value = Range("H48").Value
+
+Worksheets("Sheet1").Range("A1").Value = 1
+
+End Sub
+Sub ConvertItoC()
+Range("O49").Value = Format(Range("O46").Value * 0.39370079, "Standard") & " Inch"
+Range("O45").Value = "Cm."
+End Sub
+
+Sub ConvertCtoI()
+Range("O49").Value = Format(Range("O46").Value * 2.54, "Standard") & " Cm"
+Range("O45").Value = "Inch."
+End Sub
+
+
+
+
 
