@@ -53,7 +53,7 @@ Range("o57") = A3 / A2 * 100 & " % "
 Range("o60") = Range("F54").Value & " / " & Int(A2 / A1)
 If Range("F54").Value / Int(A2 / A1) = 1 Then
 Range("o60") = " Full "
-End If
+End If 
 
 If Range("F51").Value = Range("FH51").Value Then
 Range("o60") = " Full "
