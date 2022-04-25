@@ -1,5 +1,7 @@
 # Paper Layout Calculator
-My Goal: Create a calculator to find the most efficient layout for cutting paper into smaller portions to speed up my printery cutting process or any complex paper cutting projects
+Working in a printery, one of the most delaying processes I found was the layout planning process for cutting the paper. Every time the printery's required to cut paper to an unusual size, the person responsible for cutting the paper has to calculate the most efficient way to cut the paper, to get the most paper sheet out of it. The process can take from 3 to 10 minutes, depending on the complication of the layout. I think this layouting process can be automated by creating a layout calculator using the Excel VBA code, so I created this layout calculator.
+
+Goal: Create a calculator to find the most efficient layout for cutting paper into smaller portions to speed up my printery cutting process or any complex paper cutting projects
 
 <a href="https://ibb.co/sjYRp4z"><img src="https://i.ibb.co/H784Ly3/layout-calculator-example.png" alt="layout-calculator-example" border="0"></a>
 
